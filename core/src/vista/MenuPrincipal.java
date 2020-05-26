@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MenuPrincipal implements Screen {
 
-    private Juego game;
+    private Juego juego;
     OrthographicCamera camera;
     //para cargar las texturas (en este caso la imagen de fondo de la ciudad)
     private SpriteBatch batch;
@@ -24,9 +24,9 @@ public class MenuPrincipal implements Screen {
 
     //en el constructor se ha de meter la camara y las texturas
     public MenuPrincipal(Juego game) {
-        this.game = game;
+        this.juego = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 800, 450);
         batch = new SpriteBatch();
         fondoImg = new Texture(Gdx.files.internal("images/menuScreen.png"));
     }
@@ -36,12 +36,13 @@ public class MenuPrincipal implements Screen {
 
         //se inicia al mostrar la pantalla. Musica y fuentes
         font = new BitmapFont();
-        intro = Gdx.audio.newMusic(Gdx.files.internal("music/madWorld.mp3"));
+        intro = Gdx.audio.newMusic(Gdx.files.internal("music/gangstas.mp3"));
         intro.setLooping(true);
         intro.play();
 
-        //fuente de texto personalizada. Descargada de https://github.com/izzeroone/Game2048/find/master. HAY QUE BAJARSE EL ARCHIVO PNG Y EL FNT Y COPIARLO EN ASSETS
-        font = new BitmapFont(Gdx.files.internal("fonts/ClearBold32.fnt"));
+        //fuente de texto personalizada. Se crea una nueva fuente en formato .fnt.Yo lo he hecho online en http://kvazars.com/littera/. HAY QUE BAJARSE EL ARCHIVO .png Y EL .fnt Y COPIARLO EN ASSETS/FONTS
+        //cuando se crea la fuente se le da un tamaño y es el que se queda, por lo tanto hay que pensar primero el encaje en pantalla
+        font = new BitmapFont(Gdx.files.internal("fonts/LordCorps.fnt"));
 
     }
 
@@ -56,15 +57,15 @@ public class MenuPrincipal implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.draw(fondoImg, 0, 0);
-        font.draw(batch, "POLICE LINE: DO NOT CROSS", 200, 350);
-        font.draw(batch, "Pulsa para empezar", 100, 100);
+        font.draw(batch, "POLICE LINE: DO NOT CROSS", 100, 350);
+        font.draw(batch, "Pulsa para empezar", 50, 150);
         font.setColor(Color.YELLOW);
 
         batch.end();
 
         //evento para que al pulsar la pantalla continue con la siguiente
         if (Gdx.input.isTouched()) {
-            game.setScreen((Screen) new PantallaJuego());
+            juego.setScreen((Screen) new PantallaJuego());
             //cierra la actual
             dispose();
         }

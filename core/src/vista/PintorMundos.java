@@ -2,17 +2,20 @@ package vista;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import modelo.Bloque;
 import modelo.Decoracion;
+import modelo.Enemigo;
 import modelo.Mundo;
 import modelo.Patrullero;
 
 //esta clase crea las texturas de los bloques y del personaje a partir de unas imagenes que se han de importar
-public class PintorMundos<camera> {
+public class PintorMundos {
 
     private Mundo mundo;
     //estas dos variables son una especie de zoom. Este es el valor que mas se aproxima al resultado que quiero mostrar para que la pantalla sea 10 casillas * 10 casilllas
@@ -33,7 +36,10 @@ public class PintorMundos<camera> {
     private Texture paredImg;
     private Texture escenarioFondoImg;
     private Texture bocaIncendioIm;
+    private Texture yonkiChandalImg;
 
+    //texto en pantalla
+    private BitmapFont font;
 
     private SpriteBatch spriteBatch;
     private int ancho;
@@ -49,7 +55,7 @@ public class PintorMundos<camera> {
 
         //esta opcion de momento no se esta usando. Pretendia implementarla cambiando la actual camara
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, CAMARA_ANCHO,CAMARA_ALTO);
+        camera.setToOrtho(false, CAMARA_ANCHO, CAMARA_ALTO);
     }
 
     public PintorMundos(Mundo calle) {
@@ -62,6 +68,7 @@ public class PintorMundos<camera> {
     private void cargaTexturas() {
         //estas imagenes hay que buscarse la vida y buscarlas por internet, editandolas para intentar mejorar la fluidez. Tienen un tamaño de 64 px aproximadamente.
         patrulleroImg = new Texture(Gdx.files.internal("images/patrulleroFrontal.gif")); //renombro la imagen de jabato_01.gif original a patrullero.gif
+        yonkiChandalImg = new Texture(Gdx.files.internal("images/yonkiChandal.gif"));
         cieloImg = new Texture(Gdx.files.internal("images/cielo.png"));
         aceraImg = new Texture(Gdx.files.internal("images/acera.png"));
         paredImg = new Texture(Gdx.files.internal("images/pared.png"));
@@ -75,11 +82,12 @@ public class PintorMundos<camera> {
         pintaBloques();
         pintaPatrullero();
         pintaDecoracion();
+        pintaEnemigo();
+        pintaTextos();
         spriteBatch.end();
     }
 
     private void pintaBloques() {
-
         //bucles que crean los bloques en pantalla. HAN SIDO REESTRUCTURADOS PARA CREAR UN ESCENARIO A MEDIDA
         for (Bloque pared : mundo.getParedes()) {
             spriteBatch.draw(paredImg,
@@ -107,13 +115,24 @@ public class PintorMundos<camera> {
 
     }
 
+    //renombrado metodo que genera al guerrero
     private void pintaPatrullero() {
-        Patrullero cop = mundo.getDaniel();
+        Patrullero patrullero = mundo.getDaniel();
         spriteBatch.draw(patrulleroImg,
-                cop.getPosicion().x * ppuX,
-                cop.getPosicion().y * ppuY,
-                cop.getDimension().width * ppuX,
-                cop.getDimension().height * ppuY);
+                patrullero.getPosicion().x * ppuX,
+                patrullero.getPosicion().y * ppuY,
+                patrullero.getDimension().width * ppuX,
+                patrullero.getDimension().height * ppuY);
+    }
+
+    //metodo nuevo para incluir un enemigo en pantalla
+    private void pintaEnemigo() {
+        Enemigo yonkiChandal = mundo.getYonkiChandal();
+        spriteBatch.draw(yonkiChandalImg,
+                yonkiChandal.getPosicion().x * ppuX,
+                yonkiChandal.getPosicion().y * ppuY,
+                yonkiChandal.getDimension().width * ppuX,
+                yonkiChandal.getDimension().height * ppuY);
     }
 
     //añado este nuevo procedimiento que pintara una  tienda en la pared y otros objetos. SON OBJETOS SOBREPUESTOS A LAS PAREDES Y ACERAS, COLOCADOS COMO EL PERSONAJE
@@ -132,5 +151,13 @@ public class PintorMundos<camera> {
                 boca.getPosicion().y * ppuY,
                 boca.getDimension().width * ppuX,
                 boca.getDimension().height * ppuY);
+    }
+
+    public void pintaTextos(){
+        //este pinta un texto con el numero de vidas. POR EL MOMENTO SOLO ES DECORATIVO
+        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("fonts/funky.fnt"));
+        font.draw(spriteBatch, "VIDAS = 3", 10, 1050);
+        font.setColor(Color.BLACK);
     }
 }

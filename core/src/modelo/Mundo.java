@@ -13,11 +13,12 @@ public class Mundo {
     private List<Bloque> cielo;
     private List<Bloque> paredes;
     private List<Bloque> aceras;
-
+    //elementos decorativos extra
     private Decoracion bocaIncendio;
     private Decoracion escenarioFondo;
-
+    //personaje principal y un enemigo en pantalla
     private Patrullero daniel;
+    private Enemigo yonkiChandal;
 
     public Mundo() {
         paredes = new ArrayList<>();
@@ -30,14 +31,14 @@ public class Mundo {
 
         int numeroBloquesPantalla = 11; //creo esta variable para controlar los bloques en la pantalla
 
-        //estos arrays se llenan en la clase PintorMundos con la imagen correspondiente en el metodo pintaBloques y pintaPatrullero
-
+        //renderizacion de decoraciones y personajes
         escenarioFondo = new Decoracion(new Vector2(1, 5), 9f, 6f); //nuevo objeto decorativo escenario de fondo con un tamaño predeterminado diferente al de los otros elementos usando constructor alternativo
         bocaIncendio = new Decoracion(new Vector2(2, 0));
-        daniel = new Patrullero(new Vector2(1, 1)); //esto es la posicion en la que aparece el personaje en la pantalla. Con estas coordenadas me aparece al principio
+        daniel = new Patrullero(new Vector2(0, 1)); //esto es la posicion en la que aparece el personaje en la pantalla. Con estas coordenadas me aparece al principio
+        yonkiChandal = new Enemigo(new Vector2(8,1)); //enemigo en el lado opuesto
 
+        //estos arrays se llenan en la clase PintorMundos con la imagen correspondiente en el metodo pintaBloques y pintaPatrullero
         //con estos for se añade un bloque a cada posicion xy de la pantalla. Se llenan esas posiciones en el array
-
         for (int i = 0; i < numeroBloquesPantalla; i++) { //este for tenia el i-- y eso hace que no se ejecute. 11 es el numero de bloques que va a generar por pantalla, se cuenta del 0 al 10
             //esto llena las tres primeras filas verticales haciendo la carretera
             aceras.add(new Bloque(new Vector2(i, 0)));
@@ -64,8 +65,6 @@ public class Mundo {
             paredes.add(new Bloque(new Vector2(i, 9)));
             paredes.add(new Bloque(new Vector2(i, 10)));
         }
-
-
     }
 
     public Patrullero getDaniel() {
@@ -74,6 +73,14 @@ public class Mundo {
 
     public void setDaniel(Patrullero daniel) {
         this.daniel = daniel;
+    }
+
+    public Enemigo getYonkiChandal() {
+        return yonkiChandal;
+    }
+
+    public void setYonkiChandal(Enemigo yonkiChandal) {
+        this.yonkiChandal = yonkiChandal;
     }
 
     //esto son los getters y setters de los arraylist que general paredes, cielo y carretera

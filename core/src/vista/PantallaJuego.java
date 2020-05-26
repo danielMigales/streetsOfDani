@@ -76,18 +76,23 @@ public class PantallaJuego implements Screen, InputProcessor { //ha de implement
         music.dispose();
     }
 
-    //se añaden estos metodos que controlan las teclas
+    //se añaden estos metodos que controlan las teclas //AQUI AÑADO ARRIBA Y ABAJO
     public boolean keyDown(int keycode) { //cuando se pulsa tecla
         if (keycode == Input.Keys.LEFT) controlador.izquierdaPulsada();
         if (keycode == Input.Keys.RIGHT) controlador.derechaPulsada();
+        if (keycode == Input.Keys.UP) controlador.arribaPulsada();
+        if (keycode == Input.Keys.DOWN) controlador.abajoPulsada();
         if (keycode == Input.Keys.Z) controlador.saltoPulsada();
         if (keycode == Input.Keys.X) controlador.disparoPulsado();
         return true;
     }
 
+    //modificado
     public boolean keyUp(int keycode) { //cuando soltamos el dedo de la tecla
         if (keycode == Input.Keys.LEFT) controlador.izquierdaLiberada();
         if (keycode == Input.Keys.RIGHT) controlador.derechaLiberada();
+        if (keycode == Input.Keys.UP) controlador.arribaLiberada();
+        if (keycode == Input.Keys.DOWN) controlador.abajoLiberada();
         if (keycode == Input.Keys.Z) controlador.saltoLiberada();
         if (keycode == Input.Keys.X) controlador.disparoLiberada();
         return true;
@@ -113,12 +118,13 @@ public class PantallaJuego implements Screen, InputProcessor { //ha de implement
         return false;
     }
 
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    //este metodo se parece al anterior. Investigar para que vale cada uno
+    public boolean touchDragged(int x, int y, int pointer, int button) {
         return false;
     }
 
-    public boolean touchDragged(int x, int y, int pointer, int button) {
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 

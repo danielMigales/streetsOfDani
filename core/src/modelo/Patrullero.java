@@ -3,6 +3,9 @@ package modelo;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+
+//SE DEBERIA CREAR UNA CLASE ABSTRACTA DE PERSONAJES DE LAS CUALES EXTENDIERAN PATRULLERO Y ENEMIGO
+
 public class Patrullero {
 
     //estas dos primeras variables son las que determinan el tamaño del personaje (estaban a 1f). Las he cambiado para adaptar el tamaño de mi guerrero
@@ -13,12 +16,17 @@ public class Patrullero {
     private Rectangle dimension;
     private Vector2 velocidad;
 
+    //variable para la deteccion de colisiones
+    public Rectangle rectangulo;
+    public int lives;
+    protected boolean dead;
+
     public Patrullero(Vector2 posicion) {
         this.posicion = posicion;
         this.dimension = new Rectangle();
         this.dimension.width = ANCHO;
         this.dimension.height = ALTO;
-        this.velocidad =new Vector2(-0.1f, 1f);//Inicializaremos esa variable en el constructor: //le aumento la velocidad a 1
+        this.velocidad =new Vector2(-0.1f, 0f);//Inicializaremos esa variable en el constructor
     }
 
     public Vector2 getPosicion() {
